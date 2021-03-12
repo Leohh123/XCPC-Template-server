@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from flask_login import LoginManager
 from database import db, User
@@ -7,6 +8,8 @@ from resources import auth, item, link, post, layout
 
 app = Flask(__name__)
 app.config.from_json("./config.json")
+
+CORS(app, supports_credentials=True)
 
 db.init_app(app)
 
