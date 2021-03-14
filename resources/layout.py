@@ -60,12 +60,14 @@ class Base(Resource):
             db.session.rollback()
             return False
 
+    @login_required
     def data(self):
         try:
             return json.loads(db.session.query(Constant).get("layout").value)
         except:
             return None
 
+    @login_required
     def error(self):
         try:
             return json.loads(db.session.query(Constant).get("layout_err").value)

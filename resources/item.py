@@ -51,6 +51,7 @@ class Base(Resource):
             db.session.rollback()
             return False
 
+    @login_required
     def subitems(self, cur_id):
         try:
             res = db.session.query(ItemLink.dst, Item.name) \
@@ -61,6 +62,7 @@ class Base(Resource):
             db.session.rollback()
             return None
 
+    @login_required
     def query(self, id):
         try:
             item = db.session.query(Item).get(id)
@@ -76,6 +78,7 @@ class Base(Resource):
             db.session.rollback()
             return None
 
+    @login_required
     def search(self, keyword):
         try:
             items = db.session.query(Item).filter(
