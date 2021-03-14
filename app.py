@@ -3,7 +3,7 @@ from flask_restful import Api
 from flask_login import LoginManager
 from database import db, User
 
-from resources import auth, item, link, post, layout
+from resources import auth, item, link, post, layout, export
 
 app = Flask(__name__)
 app.config.from_json("./config.json")
@@ -46,6 +46,8 @@ api.add_resource(post.Query, "/post/query", endpoint="post.query")
 api.add_resource(layout.Update, "/layout/update", endpoint="layout.update")
 api.add_resource(layout.Data, "/layout/data", endpoint="layout.data")
 api.add_resource(layout.Error, "/layout/error", endpoint="layout.error")
+
+api.add_resource(export.Latex, "/export/latex", endpoint="export.latex")
 
 if __name__ == "__main__":
     app.run(debug=True)
