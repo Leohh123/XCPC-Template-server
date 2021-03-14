@@ -40,6 +40,8 @@ api.add_resource(link.Arrange, "/link/arrange", endpoint="link.arrange")
 
 api.add_resource(post.Add, "/post/add", endpoint="post.add")
 api.add_resource(post.Apply, "/post/apply", endpoint="post.apply")
+api.add_resource(post.Count, "/post/count", endpoint="post.count")
+api.add_resource(post.Query, "/post/query", endpoint="post.query")
 
 api.add_resource(layout.Update, "/layout/update", endpoint="layout.update")
 api.add_resource(layout.Data, "/layout/data", endpoint="layout.data")
