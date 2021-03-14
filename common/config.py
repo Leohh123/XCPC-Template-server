@@ -2,10 +2,10 @@ from datetime import datetime
 
 POST_TEMPLATE = {
     "id": -1,
-    "title": "",
+    "title": u"名称（简写）",
     "description": "",
     "usage": "",
-    "complexity": "",
+    "complexity": "$\mathcal O()$",
     "code": "",
     "note": "",
     "author": "[Nobody]",
