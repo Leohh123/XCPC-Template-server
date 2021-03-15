@@ -22,9 +22,12 @@ class Base(Resource):
             result, back_edges, ignored, isolated = [], [], [], []
 
             def get_res(cur_id):
+                cur_item = item_dict[cur_id]
                 cur_res = {
-                    "name": item_dict[cur_id].name,
                     "id": cur_id,
+                    "name": cur_item.name,
+                    "post_id": cur_item.post_id,
+                    "display": cur_item.display,
                     "items": []
                 }
                 vis[cur_id] = True
@@ -41,11 +44,21 @@ class Base(Resource):
                     result.append(tmp_res)
                     if len(edges[id]) == 0:
                         item = item_dict[id]
-                        isolated.append({"id": item.id, "name": item.name})
+                        isolated.append({
+                            "id": item.id,
+                            "name": item.name,
+                            "post_id": item.post_id,
+                            "display": item.display
+                        })
             for id in vis:
                 if not vis[id]:
                     item = item_dict[id]
-                    ignored.append({"id": item.id, "name": item.name})
+                    ignored.append({
+                        "id": item.id,
+                        "name": item.name,
+                        "post_id": item.post_id,
+                        "display": item.display
+                    })
             mp = db.session.query(Constant).get("layout")
             mp.value = json.dumps(result)
             err = db.session.query(Constant).get("layout_err")
