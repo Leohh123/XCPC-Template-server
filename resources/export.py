@@ -44,9 +44,8 @@ class Base(Resource):
             def dfs(item, depth, number):
                 it = db.session.query(Item).get(item["id"])
                 post = db.session.query(Post).get(it.post_id)
-                result = "\n\n" + config.LATEX_LEVEL[min(depth, len(
-                    config.LATEX_LEVEL) - 1)](it.name, number)
-                if post is not None:
+                result = ""
+                if it.display and post is not None:
                     if post.description.strip():
                         result += "\n\n" + \
                             escape(post.description.strip(),
@@ -59,15 +58,25 @@ class Base(Resource):
                             escape(post.complexity.strip(), prefix="Time:")
                     if post.code.strip():
                         result += "\n\n" + code_block(post.code.strip())
-                for index, subitem in enumerate(item["items"]):
-                    result += dfs(subitem, depth + 1,
+                index = 0
+                for subitem in item["items"]:
+                    tmp_res = dfs(subitem, depth + 1,
                                   "{}.{}".format(number, index + 1))
+                    if tmp_res.strip():
+                        result += tmp_res
+                        index += 1
+                if result.strip():
+                    result = "\n\n" + config.LATEX_LEVEL[min(depth, len(
+                        config.LATEX_LEVEL) - 1)](it.name, number) + result
                 return result
 
             content = config.LATEX_TEMPLATE_PREV
-            for index, item in enumerate(self.layout):
+            index = 0
+            for item in self.layout:
                 tmp = dfs(item, 0, str(index + 1))
-                content += tmp
+                if tmp.strip():
+                    content += tmp
+                    index += 1
             return (content + config.LATEX_TEMPLATE_NEXT).strip()
         except:
             db.session.rollback()
