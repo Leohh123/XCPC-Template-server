@@ -27,13 +27,6 @@ class IVCode(db.Model):
     code = db.Column(db.String(16), primary_key=True)
 
 
-class Test(db.Model):
-    a = db.Column(db.String(8), primary_key=True)
-    b = db.Column(db.String(8), nullable=False)
-    c = db.Column(db.String(16), nullable=False)
-    d = db.Column(db.Text, nullable=False)
-
-
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
@@ -44,9 +37,10 @@ class Item(db.Model):
 class ItemLink(db.Model):
     src = db.Column(db.Integer, db.ForeignKey("item.id"), primary_key=True)
     dst = db.Column(db.Integer, db.ForeignKey("item.id"), primary_key=True)
-    rank = db.Column(db.Integer, nullable=False, default=0)
+    rank = db.Column(db.Integer, primary_key=True, autoincrement=True)
     src_item = db.relationship("Item", foreign_keys=[src])
     dst_item = db.relationship("Item", foreign_keys=[dst])
+    __table_args__ = (db.UniqueConstraint("src", "dst", name="_src_dst_uc"),)
 
 
 class Post(db.Model):

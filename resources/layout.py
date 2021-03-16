@@ -10,8 +10,7 @@ class Base(Resource):
     def update(self):
         try:
             items = db.session.query(Item).all()
-            links = db.session.query(ItemLink).order_by(
-                ItemLink.rank.desc()).all()
+            links = db.session.query(ItemLink).order_by(ItemLink.rank).all()
             item_dict = {item.id: item for item in items}
             edges = {item.id: [] for item in items}
             indeg = {item.id: 0 for item in items}

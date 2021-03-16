@@ -19,7 +19,8 @@ class Base(Resource):
     @login_required
     def delete(self, src, dst):
         try:
-            link = db.session.query(ItemLink).get((src, dst))
+            link = db.session.query(ItemLink).filter_by(
+                src=src, dst=dst).first()
             db.session.delete(link)
             db.session.commit()
             return True
@@ -30,11 +31,13 @@ class Base(Resource):
     @login_required
     def arrange(self, data):
         try:
-            links = json.loads(data)
-            length = len(links)
+            link_data = json.loads(data)
+            links = [db.session.query(ItemLink).filter_by(
+                src=src, dst=dst).first() for src, dst in link_data]
+            ranks = [link.rank for link in links]
+            ranks.sort()
             for index, link in enumerate(links):
-                cur_link = db.session.query(ItemLink).get(link)
-                cur_link.rank = length - index
+                link.rank = ranks[index]
             db.session.commit()
             return True
         except:
