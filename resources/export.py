@@ -24,9 +24,12 @@ class Base(Resource):
             self.get_layout()
 
             def escape(s, prefix=None):
-                p_code = re.compile(r"`(.*?)`")
+                p_block = re.compile(r"```([\S\s]*?)```")
+                p_inline = re.compile(r"`(.*?)`")
                 p_image = re.compile(r"!\[[\S\s]*?\]\(([\S\s]+?)\)")
-                s = p_code.sub(r"\\lstinline`\1`", s)
+                s = p_block.sub(
+                    r"\n\\begin{lstlisting}[aboveskip=0pt,belowskip=0pt]\1\\end{lstlisting}", s)
+                s = p_inline.sub(r"\\lstinline`\1`", s)
                 s = p_image.sub(
                     r"\\includegraphics\[width=\\linewidth\]\{\1\}", s)
                 if prefix is not None:
