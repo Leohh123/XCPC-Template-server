@@ -44,7 +44,8 @@ LATEX_TEMPLATE_PREV = r'''
     breaklines=true,
     tabsize=4,
     showspaces=false,
-    showstringspaces=false
+    showstringspaces=false,
+    breakatwhitespace=true
 }
 \lstset{style=codestyle}
 \setcounter{secnumdepth}{5}
