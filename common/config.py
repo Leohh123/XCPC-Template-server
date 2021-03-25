@@ -52,6 +52,7 @@ LATEX_TEMPLATE_PREV = r'''
 \setcounter{tocdepth}{5}
 \setlength{\columnsep}{0.4cm}
 \setlength{\columnseprule}{0.2pt}
+\setlength{\parskip}{0em}
 \begin{document}
 \begin{multicols*}{3}
 \tableofcontents
